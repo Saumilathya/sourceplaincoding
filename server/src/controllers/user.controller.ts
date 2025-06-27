@@ -1,4 +1,3 @@
-
 import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import userModel, { IUser } from "../models/user.model";
@@ -20,14 +19,11 @@ export const registrationUser = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { name, email, password } = req.body;
-    
-      
 
       const isEmailExist = await userModel.findOne({ email });
       if (isEmailExist) {
         return next(new ErrorHandler("Email already exist", 400));
       }
-   
 
       const user: IRegistrationBody = {
         name,
@@ -36,8 +32,6 @@ export const registrationUser = CatchAsyncError(
       };
 
       const activationToken = createActivationToken(user);
-
-      
 
       const activationCode = activationToken.activationCode;
 
@@ -72,7 +66,6 @@ interface IActivationToken {
 
 export const createActivationToken = (user: any): IActivationToken => {
   const activationCode = Math.floor(1000 + Math.random() * 9000).toString();
-
 
   const token = jwt.sign(
     {

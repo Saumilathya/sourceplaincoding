@@ -24,10 +24,11 @@ courseRouter.post(
 //   authorizeRoles("admin"),
 //   editCourse
 // );
+courseRouter.get("/get-courses", getAllCourses);
+
 
 courseRouter.get("/get-course/:id", getSingleCourse);
 
-courseRouter.get("/get-courses", getAllCourses);
 
 courseRouter.get(
   "/get-admin-courses",

@@ -1,15 +1,17 @@
-require("dotenv").config();
+import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import http from "http";
 import { connectDb } from "./db/db";
 import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user.route";
 import cors from "cors";
+dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 
 // cookie parser
 // app.use(cookieParser());

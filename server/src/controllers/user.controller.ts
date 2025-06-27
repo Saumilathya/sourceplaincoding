@@ -1,4 +1,5 @@
-require("dotenv").config();
+
+import dotenv from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
 import userModel, { IUser } from "../models/user.model";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
@@ -6,7 +7,7 @@ import jwt, { JwtPayload, Secret } from "jsonwebtoken";
 import { sendToken } from "../utils/jwt";
 import sendMail from "../utils/sendMail";
 import ErrorHandler from "../utils/ErrorHandler";
-
+dotenv.config();
 // register user
 interface IRegistrationBody {
   name: string;

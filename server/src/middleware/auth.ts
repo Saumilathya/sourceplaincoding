@@ -1,10 +1,11 @@
-require("dotenv").config();
+import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
 import { CatchAsyncError } from "./catchAsyncErrors";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import ErrorHandler from "../utils/ErrorHandler";
 import { updateAccessToken } from "../controllers/user.controller";
 import userModel from "../models/user.model";
+dotenv.config()
 
 // authenticated user
 export const isAutheticated = CatchAsyncError(

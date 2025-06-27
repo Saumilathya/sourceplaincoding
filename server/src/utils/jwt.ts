@@ -1,8 +1,8 @@
-require("dotenv").config();
+import dotenv from "dotenv";
 import { Response } from "express";
 import { IUser } from "../models/user.model";
 
-
+dotenv.config()
 
 interface ITokenOptions {
   expires: Date;

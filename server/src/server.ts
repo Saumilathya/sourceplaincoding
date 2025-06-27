@@ -23,7 +23,8 @@ app.use(
   })
 );
 
-app.use("/api/v1", userRouter, courseRouter);
+app.use("/api/v1", userRouter);
+app.use("/api/v1", courseRouter)
 
 app.get("/text", (req: Request, res: Response) => {
   res.status(404).json({

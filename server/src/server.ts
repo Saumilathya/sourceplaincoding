@@ -5,13 +5,13 @@ import { connectDb } from "./db/db";
 import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user.route";
 import cors from "cors";
+import courseRouter from "./routes/course.route";
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 // cookie parser
 // app.use(cookieParser());
@@ -23,7 +23,7 @@ app.use(
   })
 );
 
-app.use("/api/v1", userRouter);
+app.use("/api/v1", userRouter, courseRouter);
 
 app.get("/text", (req: Request, res: Response) => {
   res.status(404).json({

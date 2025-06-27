@@ -9,8 +9,12 @@ import {
   uploadCourse,
 } from "../controllers/course.controller";
 import { authorizeRoles, isAutheticated } from "../middleware/auth";
+
 const courseRouter = express.Router();
 
+courseRouter.get("/get_courses", getAllCourses);
+
+courseRouter.get("/get-course/:id", getSingleCourse);
 courseRouter.post(
   "/create-course",
   isAutheticated,
@@ -24,11 +28,6 @@ courseRouter.post(
 //   authorizeRoles("admin"),
 //   editCourse
 // );
-courseRouter.get("/get-courses", getAllCourses);
-
-
-courseRouter.get("/get-course/:id", getSingleCourse);
-
 
 courseRouter.get(
   "/get-admin-courses",

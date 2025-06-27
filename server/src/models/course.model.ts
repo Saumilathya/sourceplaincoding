@@ -36,8 +36,8 @@ interface ICourseData extends Document {
   name: string;
   description: string;
   categories: string;
-  price: number;
-  estimatedPrice?: number;
+  price: string;
+  estimatedPrice?: string;
   thumbnail: object;
   tags: string;
   level: string;
@@ -95,14 +95,14 @@ const courseSchema = new Schema<ICourse>({
   },
   categories:{
     type:String,
-    required: true,
+    // required: true,
   },
   price: {
-    type: Number,
+    type: String,
     required: true,
   },
   estimatedPrice: {
-    type: Number,
+    type: String,
   },
   thumbnail: {
     public_id: {

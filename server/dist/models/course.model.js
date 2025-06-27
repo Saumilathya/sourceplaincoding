@@ -75,14 +75,14 @@ const courseSchema = new mongoose_1.Schema({
     },
     categories: {
         type: String,
-        required: true,
+        // required: true,
     },
     price: {
-        type: Number,
+        type: String,
         required: true,
     },
     estimatedPrice: {
-        type: Number,
+        type: String,
     },
     thumbnail: {
         public_id: {

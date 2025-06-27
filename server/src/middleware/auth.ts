@@ -5,12 +5,13 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import ErrorHandler from "../utils/ErrorHandler";
 import { updateAccessToken } from "../controllers/user.controller";
 import userModel from "../models/user.model";
-dotenv.config()
+dotenv.config();
 
 // authenticated user
 export const isAutheticated = CatchAsyncError(
   async (req: any, res: Response, next: NextFunction) => {
     const access_token = req.headers["access-token"] as string;
+    console.log(access_token, "kk");
 
     if (!access_token) {
       return next(
@@ -18,15 +19,15 @@ export const isAutheticated = CatchAsyncError(
       );
     }
 
-    const decoded = await jwt.verify(
+    const decoded = (await jwt.verify(
       access_token,
       process.env.ACCESS_TOKEN as string
-    ) as any;
+    )) as any;
 
     if (!decoded) {
       return next(new ErrorHandler("access token is not valid", 400));
     }
-console.log(decoded);
+    console.log(decoded);
 
     // check if the access token is expired
     if (decoded.exp && decoded.exp <= Date.now() / 1000) {

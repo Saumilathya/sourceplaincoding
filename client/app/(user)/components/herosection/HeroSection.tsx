@@ -29,7 +29,7 @@ const HeroSection = () => {
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-6">
             <span className="inline-flex items-center justify-center rounded-md border text-xs font-medium w-fit whitespace-nowrap px-4 py-1.5 border-gray-700 bg-black/50 backdrop-blur-sm text-white">
-              <span className="mr-2 text-sm">Trusted by 1.5M Code Learners</span>
+              <span className="mr-2 text-sm">Simple Start</span>
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
@@ -38,22 +38,22 @@ const HeroSection = () => {
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">
             <span className="inline-block relative">
-              Consistency
-              <span className="absolute -bottom-2 left-0 h-1 bg-orange-500 w-full"></span>
-            </span>{" "}
-            and
+              No Rush 
+              {/* <span className="absolute -bottom-2 left-0 h-1 bg-orange-800 w-full"></span> */}
+            </span>
+            , {" "}
             <span className="inline-block relative">
-              Community
-              <span className="absolute -bottom-2 left-0 h-1 bg-amber-500 w-full"></span>
+              Just Learn and Work
+              {/* <span className="absolute -bottom-2 left-0 h-1 bg-amber-500 w-full"></span> */}
             </span>
           </h1>
           <h2 className="text-3xl md:text-4xl font-bold mb-8 leading-tight">
-            <span className="bg-gradient-to-r from-orange-400 via-amber-500 to-yellow-500 text-transparent bg-clip-text">
-              An unmatched Learning Experience for coding courses.
+            <span className="bg-gradient-to-r from-orange-300 via-red-500 to-pink-500 text-transparent bg-clip-text">
+             Level Up Your Skills in Web, App, and AI Development
             </span>
           </h2>
-          <p className="text-lg text-gray-300 mb-8 max-w-3xl mx-auto">
-            Content is everywhere, but we provide a learning experience that is unmatched — bounties, peer learning, code reviews, virtual hostel, alumni network, doubt sessions, and group projects.
+          <p className="text-lg text-gray-300 mb-8  max-w-3xl mx-auto">
+            Take your time, explore at your own pace, and grow your skills without pressure — but don’t waste your time. Learning is a journey, not a race.
           </p>
 
           <div className="flex flex-wrap justify-center gap-3 mb-12">
@@ -65,19 +65,16 @@ const HeroSection = () => {
           </div>
 
           <div>
-            <a href="https://courses.chaicode.com/learn/view-all?show=batch&type=17" target="_blank" rel="noopener noreferrer">
-              <button className="inline-flex items-center justify-center gap-2 text-white px-8 py-4 text-lg rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 shadow-lg shadow-orange-500/20 relative overflow-hidden group">
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-orange-400 to-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                <svg className="lucide lucide-code mr-2 h-5 w-5 relative z-10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <polyline points="16 18 22 12 16 6"></polyline>
-                  <polyline points="8 6 2 12 8 18"></polyline>
-                </svg>
-                <span className="relative z-10">Check all Live Cohorts</span>
+            <a href="/" target="_blank" rel="noopener noreferrer">
+              <button className="inline-flex items-center justify-center gap-2 text-white px-8 py-4 text-lg rounded-xl bg-gradient-to-r via-red-500 to-pink-500 bg-clip-text  shadow-lg shadow-orange-500/20 relative overflow-hidden group">
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r  from-orange-300 via-red-500 to-pink-500  "></span>
+               
+                <span className="relative z-10">Check all Cohorts</span>
               </button>
             </a>
           </div>
 
-          <div className="mt-16 max-w-3xl mx-auto">
+          {/* <div className="mt-16 max-w-3xl mx-auto">
             <div className="aspect-video bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 overflow-hidden shadow-xl relative">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-amber-500/10 pointer-events-none"></div>
               <iframe
@@ -88,7 +85,7 @@ const HeroSection = () => {
                 allowFullScreen
               ></iframe>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -27,9 +27,9 @@ const Navitems: FC<Props> = ({ activeItem, isMobile }) => {
     <>
       <div className="hidden lg:flex">
         {navitems &&
-          navitems.map((item, index) => (
+          navitems.map((item, index:number) => (
             <Link href={`${item.url}`} key={index} passHref>
-              <span
+              <span key={index}
                 className={`${
                   activeItem === index
                     ? "dark:text-[#37a39a] text-[crimson]"
@@ -46,7 +46,7 @@ const Navitems: FC<Props> = ({ activeItem, isMobile }) => {
         <div className=" 800px:hidden">
           {navitems &&
             navitems.map((item, index) => (
-              <Link href={`${item.url}`} passHref>
+              <Link href={`${item.url}`} passHref key={index}>
                 <p
                   className={`${
                     activeItem === index

@@ -1,149 +1,119 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import toast from "react-hot-toast";
-// import { signIn } from "next-auth/react";
 import { redirect } from "next/navigation";
-import { AiFillGithub, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import { styles } from "../../styles/styles";
+import Link from "next/link";
 
+const schema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Please enter your email"),
+  password: yup.string().required("Please enter your password"),
+});
 
-type Props = {
-  setRoute: (route: string) => void;
-  setOpen: (open: boolean) => void;
-};
+const Login = () => {
+  const [login, { error, data, isSuccess }] = useLoginMutation();
 
-const Login: React.FC<Props> = ({ setRoute, setOpen }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const validate = () => {
-    if (!email.includes("@")) {
-      toast.error("Invalid email");
-      return false;
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data?.message || "Login successful");
+      redirect("/");
     }
-    if (password.length < 8) {
-      toast.error("Password must be at least 8 characters");
-      return false;
+    if (error && "data" in error) {
+      const errorData = error as any;
+      toast.error(errorData.data.message);
     }
-    return true;
-  };
+  }, [isSuccess, error, data?.message]);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
+  const formik = useFormik({
+    initialValues: { email: "", password: "" },
+    validationSchema: schema,
+    onSubmit: async ({ email, password }) => {
+      await login({ email, password });
+    },
+  });
 
-    setLoading(true);
-
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        toast.success(data.message || "Login successful");
-        setOpen(false);
-        redirect("/");
-      } else {
-        toast.error(data.message || "Login failed");
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { errors, touched, values, handleSubmit, handleChange } = formik;
 
   return (
-    <div className="w-full mt-auto">
-      <h1 className={`${styles.title}`}>Login with ShareNotes</h1>
-      <br />
-      <form onSubmit={handleLogin}>
-        <label className={`${styles.label} ${styles.color}`} htmlFor="email">
-          Enter your email
-        </label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="login12@gmail.com"
-          className={`${styles.input}`}
-        />
+    <div className="w-full p-8">
+      <h2 className="text-2xl font-semibold text-gray-700 text-center dark:text-gray-200">
+        ShareNotes.com
+      </h2>
+      <p className="text-xl text-gray-600 text-center dark:text-gray-300">
+        Login account
+      </p>
 
-        <div className="w-full mt-3 relative mb-1">
-          <label className={`${styles.label} ${styles.color}`} htmlFor="password">
-            Enter your password
+      <span className="flex items-center justify-center my-3">
+        <div
+          className="g_id_signin text-gray-600 font-bold"
+          data-text="signup_with"
+          data-type="standard"
+        ></div>
+        <div
+          id="g_id_onload"
+          data-client_id="92879692782-7nd751eusg5fep81a1vhm0r6hf0pdn54.apps.googleusercontent.com"
+          data-ux_mode="redirect"
+          data-login_uri="https://www.codewithharry.com/api/auth/googlelogin"
+        ></div>
+      </span>
+
+      <div className="mt-4 flex items-center justify-between">
+        <span className="border-b w-1/5 lg:w-1/4"></span>
+        <span className="text-xs text-center text-gray-500 uppercase dark:text-gray-400">
+          or login with email
+        </span>
+        <span className="border-b w-1/5 lg:w-1/4"></span>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        <div className="mt-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
+            Email Address
           </label>
           <input
-            type={show ? "text" : "password"}
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="password@1236"
-            className={`${styles.input}`}
+            name="email"
+            type="email"
+            value={values.email}
+            onChange={handleChange}
+            className={`${
+              errors.email && touched.email ? "border-red-500 border-2" : ""
+            } bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none`}
           />
-          {!show ? (
-            <AiOutlineEyeInvisible
-              className={`absolute bottom-3 right-2 z-1 cursor-pointer ${styles.color}`}
-              size={20}
-              onClick={() => setShow(true)}
-            />
-          ) : (
-            <AiOutlineEye
-              className={`absolute bottom-3 right-2 z-1 cursor-pointer ${styles.color}`}
-              size={20}
-              onClick={() => setShow(false)}
-            />
-          )}
         </div>
 
-        <div className="w-full mt-5">
+        <div className="mt-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
+            Password
+          </label>
           <input
-            type="submit"
-            value={loading ? "Logging in..." : "Login"}
-            className={`${styles.button}`}
-            disabled={loading}
+            name="password"
+            type="password"
+            value={values.password}
+            onChange={handleChange}
+            className={`${
+              errors.password && touched.password ? "border-red-500 border-2" : ""
+            } bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none`}
           />
         </div>
 
-        <br />
-        <h5 className={`text-center pt-4 font-Poppins text-[16px] ${styles.color}`}>
-          or join with
-        </h5>
-
-        <div className="flex items-center justify-center my-3">
-          <AiFillGithub
-            size={30}
-            className="cursor-pointer mr-2 text-black dark:text-white"
-            onClick={() => console.log("github")}
-          />
-          <FcGoogle
-            size={30}
-            className="cursor-pointer ml-2"
-            onClick={() => console.log("google")}
-          />
-        </div>
-
-        <h5 className={`text-center pt-4 font-Poppins text-[16px] ${styles.color}`}>
-          not have any account?
-          <span
-            className="text-purple-700 pl-1 cursor-pointer"
-            onClick={() => setRoute("Sign-up")}
-          >
-            Sign up
-          </span>
-        </h5>
+        <button
+          type="submit"
+          className="bg-gray-700 mt-8 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600 disabled:opacity-50 dark:bg-slate-600 dark:hover:bg-slate-900"
+        >
+          Login
+        </button>
       </form>
+
+      <div className="mt-4 flex items-center justify-between">
+        <span className="border-b w-1/5 md:w-1/4"></span>
+        <span className="text-xs text-gray-500 uppercase dark:text-gray-400">
+          <Link href="/auth/sign-up">or sign-up</Link>
+        </span>
+        <span className="border-b w-1/5 md:w-1/4"></span>
+      </div>
     </div>
   );
 };

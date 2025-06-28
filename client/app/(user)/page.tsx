@@ -5,9 +5,9 @@ import HeroSection from "./components/herosection/HeroSection";
 import CohortSection from "./components/cohorts/Cohorts";
 import Footer from "./components/footer/FooterSection";
 
-const page = () => {
+const Page = () => {
   const [open, setOpen] = useState(false);
-  const [route, setRoute] =  useState("login");
+  const [route, setRoute] =  useState("Sign-up");
 
   return (
     <>
@@ -25,4 +25,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

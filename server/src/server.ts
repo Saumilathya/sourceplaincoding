@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin:"*",
+    origin:"https://sourceplaincoding.vercel.app",
     credentials: true,
   })
 );

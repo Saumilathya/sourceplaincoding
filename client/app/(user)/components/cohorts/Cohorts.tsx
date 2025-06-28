@@ -28,7 +28,7 @@ const CohortSection = () => {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
-        {courses.map((course: any) => (
+        {data && courses && courses.map((course: any) => (
           <Link
             key={course._id}
             href={`/courses/${course._id}`} // change routing as needed

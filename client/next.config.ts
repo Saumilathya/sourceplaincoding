@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-    images: {
+  images: {
     remotePatterns: [
       {
         protocol: "https",
@@ -10,8 +10,9 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "codewithharry.nyc3.cdn.digitaloceanspaces.com",
+        hostname: "res.cloudinary.com",
       },
+
       {
         protocol: "https",
         hostname: "https://dl.polyhaven.org",

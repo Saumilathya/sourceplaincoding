@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
 import ErrorHandler from "../utils/ErrorHandler";
+import cloudinary from "cloudinary";
 import CourseModel from "../models/course.model";
 import mongoose from "mongoose";
 import sendMail from "../utils/sendMail";
@@ -10,6 +11,19 @@ export const uploadCourse = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body;
+      const thumbnail = data.thumbnail;
+      console.log(thumbnail);
+
+      if (thumbnail) {
+        const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
+          folder: "courses",
+        });
+
+        data.thumbnail = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
 
       const course = await CourseModel.create(data);
       res.status(201).json({
@@ -23,54 +37,55 @@ export const uploadCourse = CatchAsyncError(
 );
 
 // edit course
-// export const editCourse = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const data = req.body;
+export const editCourse = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = req.body;
 
-//       const thumbnail = data.thumbnail;
+      const thumbnail = data.thumbnail;
 
-//       const courseId = req.params.id;
+      const courseId = req.params.id;
 
-//       const courseData = (await CourseModel.findById(courseId)) as any;
+      const courseData = (await CourseModel.findById(courseId)) as any;
+   
+      if (thumbnail && !thumbnail.startsWith("https")) {
+        await cloudinary.v2.uploader.destroy(courseData.thumbnail.public_id);
 
-//       if (thumbnail && !thumbnail.startsWith("https")) {
-//         await cloudinary.v2.uploader.destroy(courseData.thumbnail.public_id);
+        const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
+          folder: "courses",
+        });
 
-//         const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
-//           folder: "courses",
-//         });
+        data.thumbnail = {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        };
+      }
 
-//         data.thumbnail = {
-//           public_id: myCloud.public_id,
-//           url: myCloud.secure_url,
-//         };
-//       }
+      if (thumbnail && thumbnail.startsWith("https")) {
+        data.thumbnail = {
+          public_id: courseData?.thumbnail.public_id,
+          url: courseData?.thumbnail.url,
+        };
+        await courseData.save();
+      }
 
-//       if (thumbnail.startsWith("https")) {
-//         data.thumbnail = {
-//           public_id: courseData?.thumbnail.public_id,
-//           url: courseData?.thumbnail.url,
-//         };
-//       }
+      const course = await CourseModel.findByIdAndUpdate(
+        courseId,
+        {
+          $set: data,
+        },
+        { new: true }
+      );
 
-//       const course = await CourseModel.findByIdAndUpdate(
-//         courseId,
-//         {
-//           $set: data,
-//         },
-//         { new: true }
-//       );
-
-//       res.status(201).json({
-//         success: true,
-//         course,
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   }
-// );
+      res.status(201).json({
+        success: true,
+        course,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
 
 // get single course --- without purchasing
 export const getSingleCourse = CatchAsyncError(
@@ -177,11 +192,11 @@ export const addQuestion = CatchAsyncError(
       // add this question to our course content
       couseContent.questions.push(newQuestion);
 
-    //   await NotificationModel.create({
-    //     user: req.user?._id,
-    //     title: "New Question Received",
-    //     message: `You have a new question in ${couseContent.title}`,
-    //   });
+      //   await NotificationModel.create({
+      //     user: req.user?._id,
+      //     title: "New Question Received",
+      //     message: `You have a new question in ${couseContent.title}`,
+      //   });
 
       // save the updated course
       await course?.save();
@@ -392,7 +407,6 @@ interface IAddReviewData {
 //       review.commentReplies?.push(replyData);
 
 //       await course?.save();
-
 
 //       res.status(200).json({
 //         success: true,

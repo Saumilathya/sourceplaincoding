@@ -23,7 +23,6 @@ dotenv_1.default.config();
 // authenticated user
 exports.isAutheticated = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const access_token = req.headers["access-token"];
-    console.log(access_token, "kk");
     if (!access_token) {
         return next(new ErrorHandler_1.default("Please login to access this resource", 400));
     }

@@ -1,7 +1,7 @@
 import express from "express";
 import {
   deleteCourse,
-  // editCourse,
+  editCourse,
   getAdminAllCourses,
   getAllCourses,
   getCourseByUser,
@@ -22,12 +22,12 @@ courseRouter.post(
   uploadCourse
 );
 
-// courseRouter.put(
-//   "/edit-course/:id",
-//   isAutheticated,
-//   authorizeRoles("admin"),
-//   editCourse
-// );
+courseRouter.put(
+  "/edit-course/:id",
+  isAutheticated,
+  authorizeRoles("admin"),
+  editCourse
+);
 
 courseRouter.get(
   "/get-admin-courses",

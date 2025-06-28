@@ -7,6 +7,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const db_1 = require("./db/db");
+const cloudinary_1 = require("cloudinary");
 const error_1 = require("./middleware/error");
 const user_route_1 = __importDefault(require("./routes/user.route"));
 const cors_1 = __importDefault(require("cors"));
@@ -23,6 +24,11 @@ app.use((0, cors_1.default)({
     origin: ["http://localhost:3000"],
     credentials: true,
 }));
+cloudinary_1.v2.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 app.use("/api/v1", user_route_1.default);
 app.use("/api/v1", course_route_1.default);
 app.get("/text", (req, res) => {

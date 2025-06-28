@@ -12,15 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCourse = exports.getAdminAllCourses = exports.addQuestion = exports.getCourseByUser = exports.getAllCourses = exports.getSingleCourse = exports.uploadCourse = void 0;
+exports.deleteCourse = exports.getAdminAllCourses = exports.addQuestion = exports.getCourseByUser = exports.getAllCourses = exports.getSingleCourse = exports.editCourse = exports.uploadCourse = void 0;
 const catchAsyncErrors_1 = require("../middleware/catchAsyncErrors");
 const ErrorHandler_1 = __importDefault(require("../utils/ErrorHandler"));
+const cloudinary_1 = __importDefault(require("cloudinary"));
 const course_model_1 = __importDefault(require("../models/course.model"));
 const mongoose_1 = __importDefault(require("mongoose"));
 // upload course
 exports.uploadCourse = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = req.body;
+        const thumbnail = data.thumbnail;
+        console.log(thumbnail);
+        if (thumbnail) {
+            const myCloud = yield cloudinary_1.default.v2.uploader.upload(thumbnail, {
+                folder: "courses",
+            });
+            data.thumbnail = {
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url,
+            };
+        }
         const course = yield course_model_1.default.create(data);
         res.status(201).json({
             success: true,
@@ -32,45 +44,41 @@ exports.uploadCourse = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, next) 
     }
 }));
 // edit course
-// export const editCourse = CatchAsyncError(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const data = req.body;
-//       const thumbnail = data.thumbnail;
-//       const courseId = req.params.id;
-//       const courseData = (await CourseModel.findById(courseId)) as any;
-//       if (thumbnail && !thumbnail.startsWith("https")) {
-//         await cloudinary.v2.uploader.destroy(courseData.thumbnail.public_id);
-//         const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
-//           folder: "courses",
-//         });
-//         data.thumbnail = {
-//           public_id: myCloud.public_id,
-//           url: myCloud.secure_url,
-//         };
-//       }
-//       if (thumbnail.startsWith("https")) {
-//         data.thumbnail = {
-//           public_id: courseData?.thumbnail.public_id,
-//           url: courseData?.thumbnail.url,
-//         };
-//       }
-//       const course = await CourseModel.findByIdAndUpdate(
-//         courseId,
-//         {
-//           $set: data,
-//         },
-//         { new: true }
-//       );
-//       res.status(201).json({
-//         success: true,
-//         course,
-//       });
-//     } catch (error: any) {
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   }
-// );
+exports.editCourse = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = req.body;
+        const thumbnail = data.thumbnail;
+        const courseId = req.params.id;
+        const courseData = (yield course_model_1.default.findById(courseId));
+        if (thumbnail && !thumbnail.startsWith("https")) {
+            yield cloudinary_1.default.v2.uploader.destroy(courseData.thumbnail.public_id);
+            const myCloud = yield cloudinary_1.default.v2.uploader.upload(thumbnail, {
+                folder: "courses",
+            });
+            data.thumbnail = {
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url,
+            };
+        }
+        if (thumbnail && thumbnail.startsWith("https")) {
+            data.thumbnail = {
+                public_id: courseData === null || courseData === void 0 ? void 0 : courseData.thumbnail.public_id,
+                url: courseData === null || courseData === void 0 ? void 0 : courseData.thumbnail.url,
+            };
+            yield courseData.save();
+        }
+        const course = yield course_model_1.default.findByIdAndUpdate(courseId, {
+            $set: data,
+        }, { new: true });
+        res.status(201).json({
+            success: true,
+            course,
+        });
+    }
+    catch (error) {
+        return next(new ErrorHandler_1.default(error.message, 500));
+    }
+}));
 // get single course --- without purchasing
 exports.getSingleCourse = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {

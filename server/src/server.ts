@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import http from "http";
 import { connectDb } from "./db/db";
+import {v2 as cloudinary} from "cloudinary";
 import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user.route";
 import cors from "cors";
@@ -22,6 +23,12 @@ app.use(
     credentials: true,
   })
 );
+
+cloudinary.config({
+ cloud_name: process.env.CLOUDINARY_NAME,
+ api_key: process.env.CLOUDINARY_API_KEY,
+ api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 app.use("/api/v1", userRouter);
 app.use("/api/v1", courseRouter)

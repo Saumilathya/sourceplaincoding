@@ -11,7 +11,7 @@ dotenv.config();
 export const isAutheticated = CatchAsyncError(
   async (req: any, res: Response, next: NextFunction) => {
     const access_token = req.headers["access-token"] as string;
-    console.log(access_token, "kk");
+    
 
     if (!access_token) {
       return next(

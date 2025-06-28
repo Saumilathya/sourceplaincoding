@@ -12,7 +12,7 @@ export const uploadCourse = CatchAsyncError(
     try {
       const data = req.body;
       const thumbnail = data.thumbnail;
-      console.log(thumbnail);
+    
 
       if (thumbnail) {
         const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
@@ -144,7 +144,7 @@ export const getCourseByUser = CatchAsyncError(
 
       const course = await CourseModel.findById(courseId);
 
-      const content = course?.courseData;
+      const content = course?.courseContent;
 
       res.status(200).json({
         success: true,
@@ -174,7 +174,7 @@ export const addQuestion = CatchAsyncError(
         return next(new ErrorHandler("Invalid content id", 400));
       }
 
-      const couseContent = course?.courseData?.find((item: any) =>
+      const couseContent = course?.courseContent?.find((item: any) =>
         item._id.equals(contentId)
       );
 

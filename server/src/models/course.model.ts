@@ -45,7 +45,7 @@ interface ICourseData extends Document {
   benefits: { title: string }[];
   prerequisites: { title: string }[];
   reviews: IReview[];
-  courseData: ICourseData[];
+  courseContent: ICourseData[];
   ratings?: number;
   purchased: number;
 }
@@ -129,7 +129,7 @@ const courseSchema = new Schema<ICourse>({
   benefits: [{title: String}],
   prerequisites: [{title: String}],
   reviews: [reviewSchema],
-   courseData: [courseDataSchema],
+   courseContent: [courseDataSchema],
    ratings:{
      type: Number,
      default: 0,

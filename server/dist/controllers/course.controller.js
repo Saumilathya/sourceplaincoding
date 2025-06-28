@@ -23,7 +23,6 @@ exports.uploadCourse = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, next) 
     try {
         const data = req.body;
         const thumbnail = data.thumbnail;
-        console.log(thumbnail);
         if (thumbnail) {
             const myCloud = yield cloudinary_1.default.v2.uploader.upload(thumbnail, {
                 folder: "courses",
@@ -117,7 +116,7 @@ exports.getCourseByUser = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, nex
             return next(new ErrorHandler_1.default("You are not eligible to access this course", 404));
         }
         const course = yield course_model_1.default.findById(courseId);
-        const content = course === null || course === void 0 ? void 0 : course.courseData;
+        const content = course === null || course === void 0 ? void 0 : course.courseContent;
         res.status(200).json({
             success: true,
             content,
@@ -135,7 +134,7 @@ exports.addQuestion = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, next) =
         if (!mongoose_1.default.Types.ObjectId.isValid(contentId)) {
             return next(new ErrorHandler_1.default("Invalid content id", 400));
         }
-        const couseContent = (_a = course === null || course === void 0 ? void 0 : course.courseData) === null || _a === void 0 ? void 0 : _a.find((item) => item._id.equals(contentId));
+        const couseContent = (_a = course === null || course === void 0 ? void 0 : course.courseContent) === null || _a === void 0 ? void 0 : _a.find((item) => item._id.equals(contentId));
         if (!couseContent) {
             return next(new ErrorHandler_1.default("Invalid content id", 400));
         }

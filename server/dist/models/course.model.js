@@ -109,7 +109,7 @@ const courseSchema = new mongoose_1.Schema({
     benefits: [{ title: String }],
     prerequisites: [{ title: String }],
     reviews: [reviewSchema],
-    courseData: [courseDataSchema],
+    courseContent: [courseDataSchema],
     ratings: {
         type: Number,
         default: 0,

@@ -21,7 +21,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 // cookie parser
 // app.use(cookieParser());
 app.use((0, cors_1.default)({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://sourceplaincoding.vercel.app/"],
     credentials: true,
 }));
 cloudinary_1.v2.config({

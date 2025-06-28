@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: [ "https://sourceplaincoding.vercel.app/", "https://sourceplaincoding-git-main-saumilathyas-projects.vercel.app/"],
+    origin: "https://sourceplaincoding.vercel.app/",
     credentials: true,
   })
 );

@@ -16,14 +16,6 @@ const CohortSection = () => {
       </section>
     );
 
-  if (error || !isSuccess)
-    return (
-      <section className="max-w-6xl mx-auto px-4 mt-20 md:mt-40">
-        <p className="text-center text-red-500">
-          Couldn’t load courses. Please try again later.
-        </p>
-      </section>
-    );
 
   // Safety: make sure we have an array to map over
   const courses = Array.isArray(data.courses) ? data.courses : [];

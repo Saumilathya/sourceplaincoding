@@ -111,10 +111,14 @@ exports.getCourseByUser = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, nex
     try {
         const userCourseList = (_a = req.user) === null || _a === void 0 ? void 0 : _a.courses;
         const courseId = req.params.id;
-        const courseExists = userCourseList === null || userCourseList === void 0 ? void 0 : userCourseList.find((course) => course._id.toString() === courseId);
-        if (!courseExists) {
-            return next(new ErrorHandler_1.default("You are not eligible to access this course", 404));
-        }
+        // const courseExists = userCourseList?.find(
+        //   (course: any) => course._id.toString() === courseId
+        // );
+        // if (!courseExists) {
+        //   return next(
+        //     new ErrorHandler("You are not eligible to access this course", 404)
+        //   );
+        // }
         const course = yield course_model_1.default.findById(courseId);
         const content = course === null || course === void 0 ? void 0 : course.courseContent;
         res.status(200).json({

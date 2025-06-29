@@ -132,15 +132,15 @@ export const getCourseByUser = CatchAsyncError(
       const userCourseList = req.user?.courses;
       const courseId = req.params.id;
 
-      const courseExists = userCourseList?.find(
-        (course: any) => course._id.toString() === courseId
-      );
+      // const courseExists = userCourseList?.find(
+      //   (course: any) => course._id.toString() === courseId
+      // );
 
-      if (!courseExists) {
-        return next(
-          new ErrorHandler("You are not eligible to access this course", 404)
-        );
-      }
+      // if (!courseExists) {
+      //   return next(
+      //     new ErrorHandler("You are not eligible to access this course", 404)
+      //   );
+      // }
 
       const course = await CourseModel.findById(courseId);
 

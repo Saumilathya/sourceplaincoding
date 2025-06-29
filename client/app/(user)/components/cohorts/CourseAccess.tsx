@@ -1,18 +1,9 @@
 "use client";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
-interface itemsProps {
-  title: string;
-  to: string;
-  icon: any;
-  selected: string;
-  setSelected: any;
-}
 
-const CourseAccess = () => {
-  const [mounted, setMounted] = useState(false);
-  const [selected, setSelected] = useState("Dashborad");
+
+const CourseAccess = ({course}:any) => {
   const [isCollapsed, setIsCollapsed] = useState<Boolean>(false);
 
   const dummyVideos = [

@@ -47,7 +47,7 @@ const CohortSection = () => {
               return (
                 <Link
                   key={course._id}
-                  href={`/courses/${course._id}`}
+                  href={`/course/${course._id}`}
                   className="group block p-2"
                 >
                   <div className="rounded-2xl shadow-lg overflow-hidden border border-zinc-700 hover:border-cyan-500 transition duration-300">

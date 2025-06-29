@@ -175,7 +175,7 @@ const Navbar: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
       </div>
       {visiable && (
         <div className="fixed top-16 z-50 right-15 rounded-xl shadow-2xl shadow-orange-800">
-          <UserDropdown />
+          <UserDropdown  user={user}/>
         </div>
       )}
 

@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 
-const UserDropdown = () => {
+const UserDropdown = ({ user }: any) => {
   return (
     <div className="w-64 rounded-xl bg-[#0f0f0f] text-white shadow-lg p-4 space-y-2">
       <div className="text-sm text-gray-400">Signed in as</div>
@@ -15,7 +15,7 @@ const UserDropdown = () => {
 
       <div className="flex flex-col space-y-3 pt-0.5">
         <DropdownLink href="/profile" label="My Profile" />
-         <DropdownLink href="/admin" label="Admin" />
+        {user?.role === "admin" && <DropdownLink href="/admin" label="Admin" />}
         <DropdownLink href="/help" label="Help & Feedback" />
         <DropdownLink href="/logout" label="Log Out" />
       </div>

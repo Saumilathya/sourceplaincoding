@@ -25,15 +25,13 @@ type Props = {
 
 const Navbar: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
   const [active, setActive] = useState(false);
-  const [openSidebar, setOpenSidebar] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState<boolean>(false);
   const { user } = useSelector((state: any) => state.auth);
   const [visiable, setVisiable] = useState(false);
   // const { data } = useSession();
   const [socialAuth, { isSuccess }] = useSocialAuthMutation();
   const [logout, setLogout] = useState(false);
   useLogOutQuery(undefined, { skip: !logout });
-
-
 
   // useEffect(() => {
   //   if (!user && data) {
@@ -67,7 +65,7 @@ const Navbar: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
 
   return (
     <>
-      <div className="w-full relative" >
+      <div className="w-full relative">
         <div
           className={`${
             active
@@ -81,13 +79,9 @@ const Navbar: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
                 href="/"
                 className="text-[25px] font-Poppins font-[500] text-purple-700 dark:text-white"
               >
-                <Image
-                  src="/logo.svg"
-                  width={50}
-                  height={50}
-                  className="h-[50px] bg-cover rounded-xl"
-                  alt="logo"
-                />
+                <h1 className="text-2xl lg:text-3xl font-extrabold bg-gradient-to-r from-orange-300 via-red-500 to-pink-500 bg-clip-text text-transparent">
+                  Ecoding
+                </h1>
               </Link>
               <Navitems activeItem={activeItem} isMobile={false} />
 
@@ -100,7 +94,7 @@ const Navbar: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
                         width={25}
                         height={25}
                         alt="user"
-                        className="rounded-full bg-cover outline-none border border-purple-700 shadow"
+                        className="rounded-full bg-cover outline-none border shadow"
                       />
                     ) : (
                       <HiUser
@@ -123,7 +117,7 @@ const Navbar: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
                 {openSidebar ? (
                   <HiOutlineCode
                     size={25}
-                    className="cursor-pointer dark:text-white"
+                    className="cursor-pointer z-[999] dark:text-white"
                     onClick={() => setOpenSidebar(false)}
                   />
                 ) : (
@@ -139,11 +133,11 @@ const Navbar: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
 
           {openSidebar && (
             <div
-              className="fixed w-full h-full top-0 left-0 z-[9999] bg-[#000024] dark:bg-[unset]"
+              className="fixed w-full h-full top-0 left-0 z-[9999] bg-[unset]"
               onClick={handleClose}
               id="screen"
             >
-              <div className="w-[70%] fixed z-[9999999] flex items-center flex-col h-full bg-white dark:bg-slate-900 dark:opacity-35 top-0 right-0">
+              <div className="w-full h-[40%] py-2 fixed top-[5rem]  flex items-center justify-center flex-col bg-black left-0  right-0">
                 {user ? (
                   <Link href="/profile">
                     {user.avatar ? (
@@ -165,7 +159,10 @@ const Navbar: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
                 ) : (
                   <div
                     className="btn2 cursor-pointer dark:text-white hover:!text-black"
-                    onClick={() => setOpen(true)}
+                    onClick={() => {
+                      setOpenSidebar(false);
+                      setOpen(true);
+                    }}
                   >
                     Login
                   </div>
@@ -175,15 +172,12 @@ const Navbar: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
             </div>
           )}
         </div>
-      
       </div>
-        {visiable && (
+      {visiable && (
         <div className="fixed top-16 z-50 right-15 rounded-xl shadow-2xl shadow-orange-800">
           <UserDropdown />
         </div>
       )}
-
-      
 
       {route === "login" && open && (
         <CustomModel

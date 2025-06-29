@@ -1,19 +1,25 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { styles } from "../../styles/styles";
 
 const schema = yup.object().shape({
-  email: yup.string().email("Invalid email").required("Please enter your email"),
+  email: yup
+    .string()
+    .email("Invalid email")
+    .required("Please enter your email"),
   password: yup.string().required("Please enter your password"),
 });
 
 const Login = () => {
+  const [show, setShow] = useState<boolean>(false);
   const [login, { error, data, isSuccess }] = useLoginMutation();
 
   useEffect(() => {
@@ -38,29 +44,12 @@ const Login = () => {
   const { errors, touched, values, handleSubmit, handleChange } = formik;
 
   return (
-    <div className="w-full p-8">
+    <div className="w-full px-8">
       <h2 className="text-2xl font-semibold text-gray-700 text-center dark:text-gray-200">
-        ShareNotes.com
-      </h2>
-      <p className="text-xl text-gray-600 text-center dark:text-gray-300">
         Login account
-      </p>
+      </h2>
 
-      <span className="flex items-center justify-center my-3">
-        <div
-          className="g_id_signin text-gray-600 font-bold"
-          data-text="signup_with"
-          data-type="standard"
-        ></div>
-        <div
-          id="g_id_onload"
-          data-client_id="92879692782-7nd751eusg5fep81a1vhm0r6hf0pdn54.apps.googleusercontent.com"
-          data-ux_mode="redirect"
-          data-login_uri="https://www.codewithharry.com/api/auth/googlelogin"
-        ></div>
-      </span>
-
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 mb-5 flex items-center justify-between">
         <span className="border-b w-1/5 lg:w-1/4"></span>
         <span className="text-xs text-center text-gray-500 uppercase dark:text-gray-400">
           or login with email
@@ -69,42 +58,59 @@ const Login = () => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="mt-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
-            Email Address
+        <label className={`${styles.label} `} htmlFor="email">
+          Enter your Email
+        </label>
+        <input
+          type="email"
+          name=""
+          value={values.email}
+          onChange={handleChange}
+          id="email"
+          placeholder="loginmail@gmail.com"
+          className={`${errors.email && touched.email && "border-red-500"} ${
+            styles.input
+          }`}
+        />
+        {errors.email && touched.email && (
+          <span className="text-red-500 pt-2 block">{errors.email}</span>
+        )}
+        <div className="w-full mt-5 relative mb-1">
+          <label className={`${styles.label}`} htmlFor="email">
+            Enter your password
           </label>
           <input
-            name="email"
-            type="email"
-            value={values.email}
-            onChange={handleChange}
-            className={`${
-              errors.email && touched.email ? "border-red-500 border-2" : ""
-            } bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none`}
-          />
-        </div>
-
-        <div className="mt-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
-            Password
-          </label>
-          <input
+            type={!show ? "password" : "text"}
             name="password"
-            type="password"
             value={values.password}
             onChange={handleChange}
+            id="password"
+            placeholder="password!@%"
             className={`${
-              errors.password && touched.password ? "border-red-500 border-2" : ""
-            } bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none`}
+              errors.password && touched.password && "border-red-500"
+            } ${styles.input}`}
           />
+          {!show ? (
+            <AiOutlineEyeInvisible
+              className="absolute text-black bottom-3 right-2 z-1 cursor-pointer"
+              size={20}
+              onClick={() => setShow(true)}
+            />
+          ) : (
+            <AiOutlineEye
+              className="absolute text-black bottom-3 right-2 z-1 cursor-pointer"
+              size={20}
+              onClick={() => setShow(false)}
+            />
+          )}
         </div>
-
-        <button
-          type="submit"
-          className="bg-gray-700 mt-8 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600 disabled:opacity-50 dark:bg-slate-600 dark:hover:bg-slate-900"
-        >
-          Login
-        </button>
+        {errors.password && touched.password && (
+          <span className="text-red-500 pt-2 block">{errors.password}</span>
+        )}
+        <div className="w-full mt-5">
+          <input type="submit" value="Sign Up" className={`${styles.button}`} />
+        </div>
+        <br />
       </form>
 
       <div className="mt-4 flex items-center justify-between">

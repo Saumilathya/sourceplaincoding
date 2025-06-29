@@ -4,88 +4,65 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="px-5 sm:px-16 border-t py-2 mt-28">
-      <footer className="container mx-auto mt-10 px-4">
+    <div className="px-5 sm:px-16 border-t  py-2 mt-28">
+      <footer className="container mx-auto mt-10 px-4 ">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
             <div className="flex items-center">
-              <h1 className="text-[#b63806] font-extrabold text-[2.5rem]">
-                Alankar
-              </h1>
+              <Link href={"/"}>
+                <h1 className="text-2xl lg:text-3xl font-extrabold bg-gradient-to-r from-orange-300 via-red-500 to-pink-500 bg-clip-text text-transparent">
+                  Ecoding
+                </h1>
+              </Link>
             </div>
-            <h1 className="text-gray-600">
-              Advertising & Flex Printing Agency.
+            <h1 className="text-gray-500 my-4">
+              Level Up Your Skills in Web, App, and AI Development
             </h1>
-
-            <h3 className="mt-3 font-semibold text-lg">Contact us</h3>
-
-            <a
-              href="tel:+919171453472"
-              className="flex items-center gap-2 mt-3 text-gray-600 hover:text-blue-500"
-            >
-              <PhoneIcon />
-              <p className="mt-0">+91-9171453472</p>
-            </a>
-
-            <a
-              href="mailto:alankarflex@gmail.com"
-              className="flex items-center gap-2 mt-3 text-gray-600 hover:text-blue-500"
-            >
-              <EmailIcon />
-              <p className="mt-0">alankarflex@gmail.com</p>
-            </a>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h3 className="font-semibold text-lg">All Services</h3>
-            <ul className="text-gray-600 mt-2 space-y-1">
-              <li>Business Cards</li>
-              <li>Flex</li>
-              <li>Photo Frame</li>
-              <li>Stationery</li>
-              <li>Stickers & Labels</li>
-              <li>Packaging</li>
-              <li>Awards</li>
-              <li>Marketing Materials</li>
-            </ul>
-          </div>
-
-          {/* Agency Info & Social */}
-          <div>
-            <h3 className="font-semibold text-lg">Our Agency</h3>
-            <ul className="text-gray-600 mt-2 space-y-1">
-              <li>About us</li>
-              <li>Careers</li>
-            </ul>
 
             <h3 className="mt-4 font-semibold text-lg">Follow us</h3>
             <div className="flex space-x-4 mt-3 text-gray-500">
               <SocialIcon href="#" icon={<InstagramIcon />} />
               <SocialIcon href="#" icon={<FacebookIcon />} />
               <SocialIcon href="#" icon={<YouTubeIcon />} />
-              <SocialIcon
-                href="https://wa.me/8770970704?text=Hello%2C%20I%20have%20a%20question%21"
-                icon={<WhatsAppIcon />}
-                target="_blank"
-              />
             </div>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h3 className="font-semibold text-lg">All Course</h3>
+            <ul className="text-gray-500 mt-2 flex flex-col space-y-3">
+              <Link href={"/"}>Gen Ai</Link>
+              <Link href={"/"}>App Development</Link>
+              <Link href={"/"}>web Development</Link>
+            </ul>
+
+            <h3 className="font-semibold text-lg mt-2">Cohorts</h3>
+          </div>
+
+          {/* Agency Info & Social */}
+          <div>
+            <h3 className="font-semibold text-lg">Our Info.</h3>
+            <ul className="text-gray-500 mt-2 space-y-3">
+              <Link href={"/"}>About us</Link>
+            </ul>
           </div>
 
           {/* Help & Support */}
           <div>
             <h3 className="font-semibold text-lg">Help & Support</h3>
-            <ul className="text-gray-600 mt-2 space-y-1">
-              <li>Need Help?</li>
-              <li>Business Solutions</li>
+            <ul className="text-gray-500 mt-2 space-y-3">
+              <Link href={"/"}>Ask Question?</Link>
             </ul>
           </div>
         </div>
 
-        <div className="text-center text-gray-600 border-t py-4 mt-8">
+        {/* <div className="text-center text-gray-500 border-t py-4 mt-8">
           <p>© 2023 Alankar Advertising & Flex Printing Agency.</p>
-        </div>
+        </div> */}
+        <h1 className="text-2xl text-end lg:text-[16rem] opacity-30  shadow-orange-700 font-extrabold bg-gradient-to-r from-orange-300 via-red-500 to-pink-500 bg-clip-text text-transparent">
+          Ecoding
+        </h1>
       </footer>
     </div>
   );
@@ -141,7 +118,7 @@ const SocialIcon = ({
   icon: any;
   target?: string;
 }) => (
-  <a href={href} className="hover:text-blue-500" target={target}>
+  <a href={href} className="hover:text-white " target={target}>
     {icon}
   </a>
 );

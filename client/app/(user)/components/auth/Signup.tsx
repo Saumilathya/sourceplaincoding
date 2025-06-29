@@ -1,10 +1,12 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import * as yup from "yup";
+import { styles } from "../../styles/styles";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -13,11 +15,15 @@ type Props = {
 
 const schema = yup.object().shape({
   name: yup.string().required("Please enter your name"),
-  email: yup.string().email("Invalid email").required("Please enter your email"),
+  email: yup
+    .string()
+    .email("Invalid email")
+    .required("Please enter your email"),
   password: yup.string().required("Please enter your password"),
 });
 
 const Signup: React.FC<Props> = ({ setRoute }) => {
+  const [show, setShow] = useState<boolean>(false);
   const [register, { error, data, isSuccess }] = useRegisterMutation();
 
   useEffect(() => {
@@ -42,17 +48,16 @@ const Signup: React.FC<Props> = ({ setRoute }) => {
 
   return (
     <div className="w-full p-8">
-      <h2 className="text-2xl font-semibold text-gray-700 text-center dark:text-gray-200">
-        ShareNotes.com
-      </h2>
-      <p className="text-xl text-gray-600 text-center dark:text-gray-300">
+      <h2 className="text-3xl mb-4 font-semibold text-white text-center ">
         Create an Account!
-      </p>
+      </h2>
 
       <div className="flex items-center justify-center my-4">
         <div className="flex items-center justify-center h-[44px] w-[220px] border rounded-md cursor-pointer border-gray-400">
           <FcGoogle size={25} />
-          <p className="text-gray-600 font-semibold ml-2">Sign up with Google</p>
+          <p className="text-gray-600 font-semibold ml-2">
+            Sign up with Google
+          </p>
         </div>
       </div>
 
@@ -65,58 +70,78 @@ const Signup: React.FC<Props> = ({ setRoute }) => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="mt-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
-            Full Name
+        <div className="mb-3 mt-4">
+          <label className={`${styles.label}`} htmlFor="email">
+            Enter your Name
           </label>
           <input
-            id="name"
-            name="name"
             type="text"
+            name=""
             value={values.name}
             onChange={handleChange}
-            className={`${
-              errors.name && touched.name ? "border-red-500 border-2" : ""
-            } bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full`}
+            id="name"
+            placeholder="johndoe"
+            className={`${errors.name && touched.name && "border-red-500"} ${
+              styles.input
+            }`}
           />
+          {errors.name && touched.name && (
+            <span className="text-red-500 pt-2 block">{errors.name}</span>
+          )}
         </div>
-
-        <div className="mt-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
-            Email Address
+        <label className={`${styles.label}`} htmlFor="email">
+          Enter your Email
+        </label>
+        <input
+          type="email"
+          name=""
+          value={values.email}
+          onChange={handleChange}
+          id="email"
+          placeholder="loginmail@gmail.com"
+          className={`${errors.email && touched.email && "border-red-500"} ${
+            styles.input
+          }`}
+        />
+        {errors.email && touched.email && (
+          <span className="text-red-500 pt-2 block">{errors.email}</span>
+        )}
+        <div className="w-full mt-5 relative mb-1">
+          <label className={`${styles.label}`} htmlFor="email">
+            Enter your password
           </label>
           <input
-            name="email"
-            type="email"
-            value={values.email}
-            onChange={handleChange}
-            className={`${
-              errors.email && touched.email ? "border-red-500 border-2" : ""
-            } bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full`}
-          />
-        </div>
-
-        <div className="mt-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
-            Password
-          </label>
-          <input
+            type={!show ? "password" : "text"}
             name="password"
-            type="password"
             value={values.password}
             onChange={handleChange}
+            id="password"
+            placeholder="password!@%"
             className={`${
-              errors.password && touched.password ? "border-red-500 border-2" : ""
-            } bg-gray-200 text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full`}
+              errors.password && touched.password && "border-red-500"
+            } ${styles.input}`}
           />
+          {!show ? (
+            <AiOutlineEyeInvisible
+              className="absolute text-black bottom-3 right-2 z-1 cursor-pointer"
+              size={20}
+              onClick={() => setShow(true)}
+            />
+          ) : (
+            <AiOutlineEye
+              className="absolute text-black bottom-3 right-2 z-1 cursor-pointer"
+              size={20}
+              onClick={() => setShow(false)}
+            />
+          )}
         </div>
-
-        <button
-          type="submit"
-          className="bg-gray-700 mt-8 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600 disabled:opacity-50 dark:bg-slate-600 dark:hover:bg-slate-900"
-        >
-          Create an account
-        </button>
+        {errors.password && touched.password && (
+          <span className="text-red-500 pt-2 block">{errors.password}</span>
+        )}
+        <div className="w-full mt-5">
+          <input type="submit" value="Sign Up" className={`${styles.button}`} />
+        </div>
+        <br />
       </form>
 
       <div className="mt-4 flex items-center justify-between">

@@ -4,16 +4,16 @@ import React, { FC } from "react";
 export const navitems = [
   {
     icon: "",
-    name: "Home",
-    url: "/",
-  },
-  {
-    name: "Roadmap",
-    url: "/",
-  },
-  {
     name: "Course",
-    url: "/courses",
+    url: "/",
+  },
+  {
+    name: "Cohorts",
+    url: "/",
+  },
+  {
+    name: "Ask Question",
+    url: "/Ask Question",
   },
 ];
 

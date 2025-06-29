@@ -164,9 +164,9 @@ const CourseAccess = () => {
         } overflow-scroll bg-amber-500`}
       >
         {dummyVideos.map((item, idx) => (
-          <div className="p-5">
+          <div className="p-5"  key={idx}>
             <h1
-              key={idx}
+             
               className="text-[3rem] md:text-[4rem] font-bold mt-4 md:leading-[8rem] bg-clip-text  capitalize"
             >
               {item.title}

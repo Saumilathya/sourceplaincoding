@@ -30,7 +30,9 @@ const CourseAccess = ({ id, user, setOpen }: Props) => {
         </p>
       )}
 
-      {contentData.success ? (
+      {(contentData &&
+        contentData.message == "Please login to access this resource") ||
+      "Json web token is expired, try again" ? (
         <>
           <p className=" flex items-center justify-center max-h-screen text-center text-gray-700 dark:text-gray-200">
             Please Login first

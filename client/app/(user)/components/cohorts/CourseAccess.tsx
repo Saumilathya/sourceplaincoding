@@ -16,17 +16,14 @@ type Props = {
 const CourseAccess = ({ id, user, setOpen }: Props) => {
   const [question, setQueestion] = useState("");
   const [activeVideo, setActiveVideo] = useState(0);
-  const courseId = useMemo(() => (Array.isArray(id) ? id[0] : id), [id]);
   const [activeBar, setActiveBar] = useState(0);
-  const {
-    data: contentData,
-    isLoading,
-    error,
-  } = useGetCourseContentQuery(courseId!, {
-    skip: !courseId,
+  const { data: contentData, isLoading } = useGetCourseContentQuery(id!, {
+    skip: !id,
   });
   const data = contentData?.content;
 
+  console.log(id, data, "kkg");
+  
   return (
     <>
       {isLoading && (
@@ -35,19 +32,7 @@ const CourseAccess = ({ id, user, setOpen }: Props) => {
         </p>
       )}
 
-      {contentData && !contentData.success ? (
-        <>
-          <p className=" flex items-center justify-center max-h-screen text-center text-gray-700 dark:text-gray-200">
-            Please Login first
-          </p>
-          <div
-            onClick={() => setOpen(true)}
-            className={`${styles.button} !w-[150px] mt-4 rounded-sm`}
-          >
-            Submit
-          </div>
-        </>
-      ) : (
+      {contentData && (
         <>
           <div className="w-full grid lg:grid-cols-10">
             <div className="col-span-7">

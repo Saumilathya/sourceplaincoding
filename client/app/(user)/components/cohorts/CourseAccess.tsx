@@ -22,8 +22,6 @@ const CourseAccess = ({ id, user, setOpen }: Props) => {
   });
   const data = contentData?.content;
 
-  console.log(id, data, "kkg");
-  
   return (
     <>
       {isLoading && (
@@ -32,7 +30,19 @@ const CourseAccess = ({ id, user, setOpen }: Props) => {
         </p>
       )}
 
-      {contentData && (
+      {contentData.success ? (
+        <>
+          <p className=" flex items-center justify-center max-h-screen text-center text-gray-700 dark:text-gray-200">
+            Please Login first
+          </p>
+          <div
+            onClick={() => setOpen(true)}
+            className={`${styles.button} !w-[150px] mt-4 rounded-sm`}
+          >
+            Login First
+          </div>
+        </>
+      ) : (
         <>
           <div className="w-full grid lg:grid-cols-10">
             <div className="col-span-7">

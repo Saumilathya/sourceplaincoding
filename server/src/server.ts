@@ -7,6 +7,7 @@ import { ErrorMiddleware } from "./middleware/error";
 import userRouter from "./routes/user.route";
 import cors from "cors";
 import courseRouter from "./routes/course.route";
+import { initSocketServer } from "./socketioServer";
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
@@ -39,6 +40,8 @@ app.get("/text", (req: Request, res: Response) => {
     message: "Api is not working",
   });
 });
+
+initSocketServer(server);
 
 server.listen(PORT, () => {
   connectDb();

@@ -5,6 +5,7 @@ import cloudinary from "cloudinary";
 import CourseModel from "../models/course.model";
 import mongoose from "mongoose";
 import sendMail from "../utils/sendMail";
+import notificationModel from "../models/notification.model";
 
 // upload course
 export const uploadCourse = CatchAsyncError(
@@ -12,7 +13,6 @@ export const uploadCourse = CatchAsyncError(
     try {
       const data = req.body;
       const thumbnail = data.thumbnail;
-    
 
       if (thumbnail) {
         const myCloud = await cloudinary.v2.uploader.upload(thumbnail, {
@@ -26,6 +26,12 @@ export const uploadCourse = CatchAsyncError(
       }
 
       const course = await CourseModel.create(data);
+
+      await notificationModel.create({
+        title: "New Course Create",
+        message: `New user joined with phone number: ${course.name}`,
+        status: "unread",
+      });
       res.status(201).json({
         success: true,
         course,
@@ -47,7 +53,7 @@ export const editCourse = CatchAsyncError(
       const courseId = req.params.id;
 
       const courseData = (await CourseModel.findById(courseId)) as any;
-   
+
       if (thumbnail && !thumbnail.startsWith("https")) {
         await cloudinary.v2.uploader.destroy(courseData.thumbnail.public_id);
 

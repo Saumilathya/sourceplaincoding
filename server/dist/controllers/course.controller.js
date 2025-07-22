@@ -18,6 +18,7 @@ const ErrorHandler_1 = __importDefault(require("../utils/ErrorHandler"));
 const cloudinary_1 = __importDefault(require("cloudinary"));
 const course_model_1 = __importDefault(require("../models/course.model"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const notification_model_1 = __importDefault(require("../models/notification.model"));
 // upload course
 exports.uploadCourse = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -33,6 +34,11 @@ exports.uploadCourse = (0, catchAsyncErrors_1.CatchAsyncError)((req, res, next) 
             };
         }
         const course = yield course_model_1.default.create(data);
+        yield notification_model_1.default.create({
+            title: "New Course Create",
+            message: `New user joined with phone number: ${course.name}`,
+            status: "unread",
+        });
         res.status(201).json({
             success: true,
             course,

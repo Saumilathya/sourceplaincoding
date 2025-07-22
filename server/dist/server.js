@@ -12,6 +12,7 @@ const error_1 = require("./middleware/error");
 const user_route_1 = __importDefault(require("./routes/user.route"));
 const cors_1 = __importDefault(require("cors"));
 const course_route_1 = __importDefault(require("./routes/course.route"));
+const socketioServer_1 = require("./socketioServer");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
@@ -37,6 +38,7 @@ app.get("/text", (req, res) => {
         message: "Api is not working",
     });
 });
+(0, socketioServer_1.initSocketServer)(server);
 server.listen(PORT, () => {
     (0, db_1.connectDb)();
     console.log(`Server is running at http://localhost:${PORT}`);

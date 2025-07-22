@@ -8,6 +8,7 @@ import userRouter from "./routes/user.route";
 import cors from "cors";
 import courseRouter from "./routes/course.route";
 import { initSocketServer } from "./socketioServer";
+import notificationRouter from "./routes/notification.route";
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
@@ -33,6 +34,8 @@ cloudinary.config({
 
 app.use("/api/v1", userRouter);
 app.use("/api/v1", courseRouter)
+app.use("/api/v1", notificationRouter)
+
 
 app.get("/text", (req: Request, res: Response) => {
   res.status(404).json({

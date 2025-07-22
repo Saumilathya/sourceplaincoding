@@ -13,6 +13,7 @@ const user_route_1 = __importDefault(require("./routes/user.route"));
 const cors_1 = __importDefault(require("cors"));
 const course_route_1 = __importDefault(require("./routes/course.route"));
 const socketioServer_1 = require("./socketioServer");
+const notification_route_1 = __importDefault(require("./routes/notification.route"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
@@ -32,6 +33,7 @@ cloudinary_1.v2.config({
 });
 app.use("/api/v1", user_route_1.default);
 app.use("/api/v1", course_route_1.default);
+app.use("/api/v1", notification_route_1.default);
 app.get("/text", (req, res) => {
     res.status(404).json({
         success: true,

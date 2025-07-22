@@ -49,7 +49,7 @@ export interface Course {
   _id: string;
   name: string;
   description: string;
-  price: string; // or number if you're handling it numerically
+  price: string; // or number if you're h
   estimatedPrice: string; // same here
   tags: string; // comma-separated string; use string[] if already split
   level: "Beginner" | "Intermediate" | "Advanced" | string;

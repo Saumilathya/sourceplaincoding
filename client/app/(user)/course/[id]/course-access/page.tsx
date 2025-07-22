@@ -1,32 +1,18 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEffect, useState, useMemo } from "react";
-import { useGetCourseContentQuery, useGetCourseDetailsQuery } from "@/redux/features/courses/coursesApi";
-import CourseOverview from "@/app/(user)/components/cohorts/CourseOverview";
+import { useState } from "react";
 import Navbar from "@/app/(user)/components/header/Navbar";
 import CourseAccess from "@/app/(user)/components/cohorts/CourseAccess";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/hooks/useProtected";
 
 const Page = () => {
-  const { id } = useParams() as { id?: string | string[] };
-  const courseId = useMemo(() => (Array.isArray(id) ? id[0] : id), [id]);
-
+  const { id } = useParams() as { id: string };
+  const { user } = useSelector((state: RootState) => state.auth);
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
   const [route, setRoute] = useState("login");
-  const [courseData, setCourseData] = useState<any>(null);
-
-  const {
-    data,
-    isLoading,
-    error,
-  } = useGetCourseContentQuery(courseId!, {
-    skip: !courseId,
-  });
-
-  useEffect(() => {
-    if (data && data?.content) setCourseData(data.content);
-  }, [data]);
 
   return (
     <>
@@ -38,14 +24,7 @@ const Page = () => {
         setRoute={setRoute}
       />
 
-      {isLoading && (
-        <p className="text-center text-gray-700 dark:text-gray-200">
-          Loading course…
-        </p>
-      )}
-     
-
-      {courseData && <CourseAccess course={courseData} />}
+      <CourseAccess id={id} user={user} setOpen={setOpen} />
     </>
   );
 };

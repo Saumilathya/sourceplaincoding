@@ -134,7 +134,7 @@ const CourseHeroSection = ({ course }: { course: CourseType }) => {
       <div className="px-8 py-14 md:py-6 w-full h-full mt-12">
         <div className="flex flex-col lg:h-full w-full  items-center justify-center">
           <h1 className="md:text-[7rem] text-[4rem] font-bold mt-4 md:leading-[8rem] bg-clip-text  capitalize">
-            Syullabus
+            Syllabus
           </h1>
           <h3 className="font-Josefin text-end text-[1.2rem]">{course.name}</h3>
         </div>

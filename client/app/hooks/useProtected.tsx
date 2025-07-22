@@ -7,7 +7,7 @@ interface ProtectedProps {
   children: ReactNode;
 }
 
-interface User {
+ interface User {
   name: string;
   email: string;
   password: string;
@@ -16,7 +16,7 @@ interface User {
   courses: string[]; // Better to type array
 }
 
-interface RootState {
+export interface RootState {
   auth: {
     user: User | null;
   };

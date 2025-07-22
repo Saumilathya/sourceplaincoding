@@ -45,7 +45,7 @@ const CourseAccess = ({ id, user, setOpen }: Props) => {
           </>
         ))}
       {contentData &&
-        contentData.success(
+        contentData.success && (
           <>
             <div className="w-full grid lg:grid-cols-10">
               <div className="col-span-7">

@@ -87,11 +87,11 @@ const courseSchema = new mongoose_1.Schema({
     thumbnail: {
         public_id: {
             type: String,
-            require: true
+            require: true,
         },
         url: {
             type: String,
-            require: true
+            require: true,
         },
     },
     tags: {
@@ -107,7 +107,7 @@ const courseSchema = new mongoose_1.Schema({
         // required: true,
     },
     benefits: [{ title: String }],
-    prerequisites: [{ title: String }],
+    prerquisites: [{ title: String }],
     reviews: [reviewSchema],
     courseContent: [courseDataSchema],
     ratings: {
